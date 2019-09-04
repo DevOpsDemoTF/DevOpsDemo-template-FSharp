@@ -1,0 +1,6 @@
+/.ionide/
+/.vscode/
+*.exe
+*.dll
+**/bin/
+**/obj/
