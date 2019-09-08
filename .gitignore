@@ -4,3 +4,7 @@
 *.dll
 **/bin/
 **/obj/
+/packages/
+/.paket/*
+!/.paket/paket.bootstrapper.exe
+/paket-files/
