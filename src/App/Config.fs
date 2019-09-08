@@ -1,5 +1,6 @@
 module Service.Config
 
+open System
 open Microsoft.AspNetCore.Builder
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
@@ -16,5 +17,13 @@ let configureApp webApp errorHandler (app : IApplicationBuilder) =
         .UseGiraffe(webApp)
     
 let configureLogging (builder : ILoggingBuilder) =
-    let filter (l : LogLevel) = l.Equals LogLevel.Error
+    let level =
+        System.Environment.GetEnvironmentVariable("DEBUG_LEVEL") |> Option.ofObj
+        |> Option.defaultValue "DEBUG"
+        |> String.mapi (fun i c -> (if i = 0 then System.Char.ToUpper else System.Char.ToLower) c)
+        |> LogLevel.TryParse
+        |> fun (result, value) -> if result then Some(value) else None
+        |> Option.orElseWith (failwith "Invalid debug level")
+
+    let filter (l : LogLevel) = l >= level.Value
     builder.AddFilter(filter).AddConsole() |> ignore
