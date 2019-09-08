@@ -21,6 +21,7 @@ let main _ =
         .Configure(Action<IApplicationBuilder> (configureApp webApp errorHandler))
         .ConfigureServices(configureServices)
         .ConfigureLogging(configureLogging)
+        .UseUrls("http://0.0.0.0:8080")
         .Build()
         .Run()
     0
