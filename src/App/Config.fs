@@ -24,10 +24,5 @@ let configureLogging (builder : ILoggingBuilder) =
         |> Events.LogEventLevel.TryParse
         |> fun (result, value) -> if result then value else failwith "Invalid debug level"
 
-    Log.Logger <- LoggerConfiguration()
-      .Enrich.FromLogContext()
-      .WriteTo.Console(formatter = Formatting.Compact.RenderedCompactJsonFormatter())
-      .MinimumLevel.Is(level)
-      .CreateLogger();
-
+    Logging.initLogger level
     builder.AddSerilog() |> ignore

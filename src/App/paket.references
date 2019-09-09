@@ -3,3 +3,4 @@ Giraffe
 Microsoft.AspNetCore
 prometheus-net.AspNetCore
 Serilog.AspNetCore
+Newtonsoft.Json
