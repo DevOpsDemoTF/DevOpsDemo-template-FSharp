@@ -1,11 +1,11 @@
 module Service.Config
 
-open System
 open Microsoft.AspNetCore.Builder
 open Microsoft.Extensions.Logging
 open Microsoft.Extensions.DependencyInjection
 open Giraffe
 open Prometheus
+open Serilog
 
 
 let configureServices (services : IServiceCollection) =
@@ -21,9 +21,13 @@ let configureLogging (builder : ILoggingBuilder) =
         System.Environment.GetEnvironmentVariable("DEBUG_LEVEL") |> Option.ofObj
         |> Option.defaultValue "DEBUG"
         |> String.mapi (fun i c -> (if i = 0 then System.Char.ToUpper else System.Char.ToLower) c)
-        |> LogLevel.TryParse
-        |> fun (result, value) -> if result then Some(value) else None
-        |> Option.orElseWith (failwith "Invalid debug level")
+        |> Events.LogEventLevel.TryParse
+        |> fun (result, value) -> if result then value else failwith "Invalid debug level"
 
-    let filter (l : LogLevel) = l >= level.Value
-    builder.AddFilter(filter).AddConsole() |> ignore
+    Log.Logger <- LoggerConfiguration()
+      .Enrich.FromLogContext()
+      .WriteTo.Console(formatter = Formatting.Compact.RenderedCompactJsonFormatter())
+      .MinimumLevel.Is(level)
+      .CreateLogger();
+
+    builder.AddSerilog() |> ignore

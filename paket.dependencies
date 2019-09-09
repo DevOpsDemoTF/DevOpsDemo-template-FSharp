@@ -5,5 +5,6 @@ nuget Giraffe
 nuget Microsoft.AspNetCore
 nuget Microsoft.NET.Test.Sdk 16.0.1
 nuget prometheus-net.AspNetCore
+nuget Serilog.AspNetCore
 nuget xunit 2.4.0
 nuget xunit.runner.visualstudio 2.4.0
