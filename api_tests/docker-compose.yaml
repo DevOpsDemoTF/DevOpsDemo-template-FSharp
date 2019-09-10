@@ -1,0 +1,17 @@
+version: '3'
+services:
+  app:
+    image: app:latest
+    build: ..
+    environment:
+      DEBUG_LEVEL: DEBUG
+
+  # run with: docker-compose run tests
+  tests:
+    build: .
+    depends_on:
+      - app
+    volumes:
+      - ./results:/results
+
+  # add any other containers such as DB, Redis, Mocks, ...
