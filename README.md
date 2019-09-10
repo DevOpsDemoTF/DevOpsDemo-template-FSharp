@@ -1,5 +1,5 @@
 # Template for micro-service in F# #
-[![Build Status](https://dev.azure.com/butzist/DevOpsDemo/_apis/build/status/DevOpsDemoTF.DevOpsDemo-template-FSharp?branchName=master)](https://dev.azure.com/butzist/DevOpsDemo/_build/latest?definitionId=3&branchName=master)
+[![Build Status](https://dev.azure.com/butzist/DevOpsDemo/_apis/build/status/DevOpsDemoTF.DevOpsDemo-template-FSharp?branchName=master)](https://dev.azure.com/butzist/DevOpsDemo/_build/latest?definitionId=4&branchName=master)
 
 ### Description ###
 Micro-service template to use with my [DevOpsDemo](https://github.com/butzist/DevOpsDemo)
