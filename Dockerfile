@@ -1,9 +1,12 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-alpine AS build
 WORKDIR /app
 
+# bootstrap paket dependency manager
+RUN dotnet tool install paket --tool-path /usr/local/bin
+
 # copy csproj and restore as distinct layers
 COPY . .
-RUN dotnet restore
+RUN paket restore
 
 # copy and publish app and libraries
 RUN dotnet publish -c Release -o out
