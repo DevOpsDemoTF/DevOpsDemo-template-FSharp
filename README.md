@@ -2,7 +2,7 @@
 [![Build Status](https://dev.azure.com/butzist/DevOpsDemo/_apis/build/status/DevOpsDemoTF.DevOpsDemo-template-FSharp?branchName=master)](https://dev.azure.com/butzist/DevOpsDemo/_build/latest?definitionId=4&branchName=master)
 
 ### Description ###
-Micro-service template to use with my [DevOpsDemo](https://github.com/butzist/DevOpsDemo)
+Micro-service template to use with my [DevOpsDemo](https://github.com/DevOpsDemoTF/DevOpsDemo)
 
 ### Features ###
 * Build in multi-stage Docker container
