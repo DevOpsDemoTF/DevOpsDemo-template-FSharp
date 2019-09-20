@@ -3,6 +3,7 @@
 open System
 open Microsoft.AspNetCore.Builder
 open Microsoft.AspNetCore.Hosting
+open Microsoft.Extensions.DependencyInjection
 open Giraffe
 open Serilog
 open Microsoft.Extensions.Logging
@@ -16,13 +17,19 @@ let errorHandler (ex : Exception) (logger : ILogger) =
 [<EntryPoint>]
 let main _ =
     Metrics.initMetrics()
+    let config = Config.getConfiguration
     
     WebHostBuilder()
         .UseKestrel()
         .UseSerilog()
         .Configure(Action<IApplicationBuilder> (Config.configureApp Routing.webApp errorHandler))
-        .ConfigureServices(Config.configureServices)
-        .ConfigureLogging(Config.configureLogging)
+        .ConfigureServices( fun services ->
+            services
+                .AddSingleton(State.create config)
+                .AddGiraffe()
+                |> ignore
+        )
+        .ConfigureLogging(Config.configureLogging config)
         .UseUrls("http://0.0.0.0:8080")
         .Build()
         .Run()

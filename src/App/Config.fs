@@ -2,24 +2,31 @@ module Service.Config
 
 open Microsoft.AspNetCore.Builder
 open Microsoft.Extensions.Logging
-open Microsoft.Extensions.DependencyInjection
 open Giraffe
 open Prometheus
 open Serilog
 
+type Configuration =
+    {
+        LogLevel: string
+    }
 
-let configureServices (services : IServiceCollection) =
-    services.AddGiraffe() |> ignore
+let getConfiguration =
+    {
+        LogLevel =
+            System.Environment.GetEnvironmentVariable("DEBUG_LEVEL") |> Option.ofObj
+            |> Option.defaultValue "WARNING"
+ 
+    }
 
 let configureApp webApp errorHandler (app : IApplicationBuilder) =
     app.UseGiraffeErrorHandler(errorHandler)
         .UseHttpMetrics()
         .UseGiraffe(webApp)
     
-let configureLogging (builder : ILoggingBuilder) =
+let configureLogging configuration (builder : ILoggingBuilder) =
     let level =
-        System.Environment.GetEnvironmentVariable("DEBUG_LEVEL") |> Option.ofObj
-        |> Option.defaultValue "DEBUG"
+        configuration.LogLevel
         |> String.mapi (fun i c -> (if i = 0 then System.Char.ToUpper else System.Char.ToLower) c)
         |> Events.LogEventLevel.TryParse
         |> fun (result, value) -> if result then value else failwith "Invalid debug level"

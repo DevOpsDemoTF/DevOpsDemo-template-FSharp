@@ -39,8 +39,10 @@ stages:
           tags: |
             $(tagname)
       - bash: |
+          set -e
+          set -o pipefail
           cd api_tests
-          docker-compose run tests
+          docker-compose run tests || true
           docker-compose run --entrypoint /bin/cat app /app/test-results.xml > ../test-results.xml
         displayName: Run Tests
       - task: PublishTestResults@2
