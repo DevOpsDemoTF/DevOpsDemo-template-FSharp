@@ -1,4 +1,4 @@
-image: docker:latest
+image: butzist/dind-compose:latest
 services:
   - docker:dind
 
@@ -27,8 +27,6 @@ build:
 test:
   stage: test
   script:
-    - apk add py-pip python-dev libffi-dev openssl-dev gcc libc-dev make
-    - pip install docker-compose
     - docker pull $CONTAINER_TEST_IMAGE
     - docker tag $CONTAINER_TEST_IMAGE app:latest
     - |
